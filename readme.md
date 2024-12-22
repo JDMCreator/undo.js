@@ -2,6 +2,8 @@
 
 **undo.js** allows to detect undo and redo actions on contenteditable elements, textareas and inputs elements by calling custom events `onbeforeundo`, `undo`, `onbeforeredo` and `onredo`. It is then possible to monitor these events using `addEventListener`.
 
+The usual approach to detecting undo and redo actions is to monitor `CTRL+Z` and `⌘+Z`. However, there are several other ways to perform undo and redo actions: with the browser's menu or context menu (right-click), with `document.execCommand` called from inside a short running user-generated event handler, by using gestures or shaking your mobile device, or any other method that may come up in the future. **undo.js** captures all those methods.
+
 By default, **undo.js** will force-enable undo and redo actions, meaning that such actions will be detectable, and events will be triggered, even if there no action to undo/redo. In the context menu of the browser (right-click), undo and redo buttons will be enabled.
 
 ## undo.observe(element, param)
@@ -25,7 +27,7 @@ This table can be useful:
 
 `undo.observe()` returns an object will a single method: `.disconnect()`.
 
-##Example:
+## Example:
 
 ```js
 
@@ -44,6 +46,9 @@ myelement.addEventListener("beforeredo", function(e){
 myelement.addEventListener("redo", function(e){
 })
 ```
+## Temporary changes to the DOM
+
+To force-enable undo and redo actions, **undo.js** will create and then immediately destroy an empty comment in HTML element or a zero-width white space in a textarea or input. If you are monitoring the DOM using `MutationObserver`, you may capture those changes.
 
 ## License
 
